@@ -1,0 +1,60 @@
+#include <iostream>
+using namespace std;
+
+void analyzeGrades(int* grades, int students, int subjects) {
+    cout << "\n===== GRADE MATRIX =====\n";
+
+    int highest = *(grades + 0);
+    int highestStudent = 0, highestSubject = 0;
+
+    for (int i = 0; i < students; i++) {
+        cout << "Student " << i + 1 << " | ";
+
+        int sum = 0;
+        for (int j = 0; j < subjects; j++) {
+            int grade = *(grades + i * subjects + j);
+            cout << "S" << j + 1 << ": " << grade << " | ";
+            sum += grade;
+
+            if (grade > highest) {
+                highest = grade;
+                highestStudent = i;
+                highestSubject = j;
+            }
+        }
+
+        double avg = (double)sum / subjects;
+        cout << "Avg: " << avg << "\n";
+    }
+
+    cout << "\n===== RESULTS =====\n";
+    cout << "Highest Grade : " << highest << "\n";
+    cout << "Found in      : Student " << highestStudent + 1
+         << ", Subject " << highestSubject + 1 << "\n";
+}
+
+int main() {
+    int students, subjects;
+
+    cout << "===== Student Grade Matrix Analyzer =====\n";
+    cout << "Enter number of students : ";
+    cin >> students;
+    cout << "Enter number of subjects : ";
+    cin >> subjects;
+
+    int* grades = new int[students * subjects];
+
+    cout << "\nEnter grades:\n";
+    for (int i = 0; i < students; i++) {
+        cout << "Student " << i + 1 << ":\n";
+        for (int j = 0; j < subjects; j++) {
+            cout << "  Subject " << j + 1 << ": ";
+            cin >> *(grades + i * subjects + j);
+        }
+    }
+
+    analyzeGrades(grades, students, subjects);
+
+    delete[] grades;
+    return 0;
+}
